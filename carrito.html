@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito - El Harinero</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@next/dist/aos.css" rel="stylesheet">
+    <style>
+        /* Estilos globales consistentes */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-image: url('fondoproductos.jpg');
+            color: #402d2d;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header y navegación idénticos al resto */
+        .header-top {
+            text-align: center;
+            background: #fef1cf url('textura-lino.png') repeat;
+            padding: 20px 0;
+        }
+
+        .logo-title img {
+            height: 120px;
+        }
+
+        .nav-background {
+            background-color: #402d2d;
+            padding: 10px 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-links {
+            list-style-type: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #fef1cf;
+            font-weight: bold;
+            position: relative;
+            transition: color 0.4s ease;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        /* Iconos de usuario y carrito */
+        .extra-icons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .extra-icons a {
+            color: #fef1cf;
+            font-size: 1.2rem;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .extra-icons a:hover {
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .cart-icon {
+            position: relative;
+        }
+
+        .contador-carrito {
+            display: none;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #c0392b;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logout-container {
+            display: none;
+        }
+
+        .logout-container a {
+            color: #fef1cf;
+            font-size: 0.9rem;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: #5a3e3e;
+            transition: all 0.3s;
+        }
+
+        .logout-container a:hover {
+            background-color: #c0392b;
+        }
+
+        .fa-user-check {
+            color: #4cc9f0 !important;
+        }
+
+        /* Contenido del carrito */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            flex: 1;
+        }
+
+        .carrito-container {
+            background-color: rgba(254, 241, 207, 0.9);
+            border-radius: 10px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 1px solid #402d2d;
+            min-height: 300px; /* Altura mínima para evitar saltos */
+        }
+
+        .carrito-container h1 {
+            color: #402d2d;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        /* Estilo mejorado para carrito vacío */
+        .carrito-vacio {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            height: 200px; /* Altura fija para el mensaje */
+        }
+
+        .carrito-vacio p {
+            margin: 0;
+        }
+
+        .carrito-vacio .btn-comprar {
+            width: auto;
+            padding: 10px 30px;
+        }
+
+        .carrito-items {
+            margin-bottom: 30px;
+        }
+
+        .carrito-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .carrito-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 20px;
+            border: 1px solid #402d2d;
+        }
+
+        .item-info {
+            flex-grow: 1;
+        }
+
+        .item-info h3 {
+            color: #402d2d;
+            margin-bottom: 5px;
+        }
+
+        .item-info p {
+            color: #5a3e3e;
+            font-size: 0.9rem;
+        }
+
+        .item-precio {
+            font-weight: bold;
+            margin: 0 20px;
+            color: #402d2d;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .item-cantidad {
+            display: flex;
+            align-items: center;
+            margin: 0 20px;
+        }
+
+        .item-cantidad button {
+            background-color: #402d2d;
+            color: #fef1cf;
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .item-cantidad button:hover {
+            background-color: #5a3e3e;
+        }
+
+        .item-cantidad span {
+            margin: 0 10px;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .item-total {
+            font-weight: bold;
+            min-width: 100px;
+            text-align: center;
+            color: #402d2d;
+        }
+
+        .item-eliminar {
+            color: #c0392b;
+            cursor: pointer;
+            font-size: 1.2rem;
+            margin-left: 20px;
+            transition: all 0.3s;
+        }
+
+        .item-eliminar:hover {
+            transform: scale(1.1);
+        }
+
+        .carrito-total {
+            text-align: right;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #402d2d;
+            color: #402d2d;
+        }
+
+        .carrito-acciones {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-vaciar {
+            background-color: #fef1cf;
+            color: #402d2d;
+            border: 2px solid #402d2d;
+        }
+
+        .btn-vaciar:hover {
+            background-color: #402d2d;
+            color: #fef1cf;
+        }
+
+        .btn-comprar {
+            background-color: #402d2d;
+            color: #fef1cf;
+            border: 2px solid #402d2d;
+        }
+
+        .btn-comprar:hover {
+            background-color: #5a3e3e;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #402d2d;
+            color: #fef1cf;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            .nav-links {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .extra-icons {
+                margin-top: 15px;
+            }
+
+            .carrito-item {
+                flex-wrap: wrap;
+                justify-content: center;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .item-info, .item-precio, .item-cantidad, .item-total {
+                width: 100%;
+                margin: 5px 0;
+                justify-content: center;
+            }
+
+            .carrito-acciones {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .carrito-vacio {
+                height: auto;
+                padding: 30px 20px;
+            }
+
+            .carrito-vacio .btn-comprar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header idéntico al resto de páginas -->
+    <header>
+        <div class="header-top">
+            <div class="logo-title">
+                <img src="Logo.png" alt="Logo El Harinero">
+            </div>
+        </div>
+        <div class="nav-background">
+            <nav class="navbar">
+                <ul class="nav-links">
+                    <li><a href="ElHarinero.html">Inicio</a></li>
+                    <li><a href="nosotros.html">Nosotros</a></li>
+                    <li><a href="productos.html">Productos</a></li>
+                    <li><a href="#novedades">Novedades</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+                <div class="extra-icons">
+                    <a href="login.html" class="user-icon">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <div class="logout-container">
+                        <a href="#" id="logout-btn">Cerrar sesión</a>
+                    </div>
+                    <a href="carrito.html" class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="contador-carrito"></span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Contenido del carrito -->
+    <div class="container">
+        <div class="carrito-container" data-aos="fade-up">
+            <h1>Tu Carrito de Compras</h1>
+            
+            <div class="carrito-items" id="carrito-items">
+                <!-- Los productos se agregarán dinámicamente aquí -->
+                <div class="carrito-vacio">
+                    <p>Tu carrito está vacío</p>
+                    <a href="productos.html" class="btn btn-comprar">Ir a Productos</a>
+                </div>
+            </div>
+            
+            <div class="carrito-total" id="carrito-total" style="display: none;">
+                <p>Total: $<span id="total-precio">0.00</span></p>
+            </div>
+            
+            <div class="carrito-acciones" id="carrito-acciones" style="display: none;">
+                <button class="btn btn-vaciar" id="vaciar-carrito">Vaciar Carrito</button>
+                <button class="btn btn-comprar" id="comprar">Finalizar Compra</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; El Harinero - Inés O'Hara 2023</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({ duration: 1000 });
+            verificarSesion();
+            mostrarCarrito();
+            
+            // Manejar cierre de sesión
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('usuarioLogueado');
+                    window.location.href = "ElHarinero.html";
+                });
+            }
+
+            // Delegación de eventos para el carrito
+            document.getElementById('carrito-items').addEventListener('click', function(e) {
+                // Manejar clic en botón eliminar
+                if (e.target.closest('.item-eliminar')) {
+                    const itemElement = e.target.closest('.carrito-item');
+                    if (itemElement) {
+                        const id = itemElement.dataset.id;
+                        eliminarItem(id);
+                    }
+                }
+                
+                // Manejar clic en botones de cantidad
+                if (e.target.classList.contains('disminuir')) {
+                    const id = e.target.closest('.carrito-item').dataset.id;
+                    modificarCantidad(id, -1);
+                }
+                
+                if (e.target.classList.contains('aumentar')) {
+                    const id = e.target.closest('.carrito-item').dataset.id;
+                    modificarCantidad(id, 1);
+                }
+            });
+            
+            // Eventos para vaciar y comprar
+            document.getElementById('vaciar-carrito').addEventListener('click', vaciarCarrito);
+            document.getElementById('comprar').addEventListener('click', finalizarCompra);
+        });
+
+        // Verificar sesión de usuario
+        function verificarSesion() {
+            const usuarioLogueado = localStorage.getItem('usuarioLogueado');
+            const userIcons = document.querySelectorAll('.fa-user');
+            const logoutButtons = document.querySelectorAll('.logout-container');
+            
+            if (usuarioLogueado) {
+                userIcons.forEach(icon => {
+                    icon.classList.remove('fa-user');
+                    icon.classList.add('fa-user-check');
+                });
+                logoutButtons.forEach(container => {
+                    container.style.display = 'block';
+                });
+            } else {
+                userIcons.forEach(icon => {
+                    icon.classList.remove('fa-user-check');
+                    icon.classList.add('fa-user');
+                });
+                logoutButtons.forEach(container => {
+                    container.style.display = 'none';
+                });
+            }
+        }
+
+        // Actualizar contador del carrito
+        function actualizarContadorCarrito() {
+            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            const contadores = document.querySelectorAll('.contador-carrito');
+            
+            contadores.forEach(contador => {
+                contador.textContent = carrito.length;
+                contador.style.display = carrito.length > 0 ? 'block' : 'none';
+            });
+        }
+
+        // Mostrar contenido del carrito
+        function mostrarCarrito() {
+            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            const carritoItems = document.getElementById('carrito-items');
+            const carritoTotal = document.getElementById('carrito-total');
+            const carritoAcciones = document.getElementById('carrito-acciones');
+            
+            if (carrito.length === 0) {
+                carritoItems.innerHTML = `
+                    <div class="carrito-vacio">
+                        <p>Tu carrito está vacío</p>
+                        <a href="productos.html" class="btn btn-comprar">Ir a Productos</a>
+                    </div>
+                `;
+                carritoTotal.style.display = 'none';
+                carritoAcciones.style.display = 'none';
+                return;
+            }
+            
+            let html = '';
+            let total = 0;
+            
+            carrito.forEach(item => {
+                total += item.precio * item.cantidad;
+                html += `
+                    <div class="carrito-item" data-id="${item.id}">
+                        <img src="${item.imagen}" alt="${item.nombre}">
+                        <div class="item-info">
+                            <h3>${item.nombre}</h3>
+                            <p>${item.descripcion}</p>
+                        </div>
+                        <div class="item-precio">$${item.precio.toFixed(2)}</div>
+                        <div class="item-cantidad">
+                            <button class="disminuir">-</button>
+                            <span>${item.cantidad}</span>
+                            <button class="aumentar">+</button>
+                        </div>
+                        <div class="item-total">$${(item.precio * item.cantidad).toFixed(2)}</div>
+                        <div class="item-eliminar"><i class="fas fa-trash"></i></div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('total-precio').textContent = total.toFixed(2);
+            carritoItems.innerHTML = html;
+            carritoTotal.style.display = 'block';
+            carritoAcciones.style.display = 'flex';
+        }
+
+        // Modificar cantidad de un item
+        function modificarCantidad(id, cambio) {
+            let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            const itemIndex = carrito.findIndex(item => item.id.toString() === id.toString());
+            
+            if (itemIndex !== -1) {
+                carrito[itemIndex].cantidad += cambio;
+                
+                // Eliminar si la cantidad llega a 0
+                if (carrito[itemIndex].cantidad <= 0) {
+                    carrito.splice(itemIndex, 1);
+                }
+                
+                localStorage.setItem('carrito', JSON.stringify(carrito));
+                mostrarCarrito();
+                actualizarContadorCarrito();
+            }
+        }
+
+        // Eliminar un item del carrito
+        function eliminarItem(id) {
+            let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            carrito = carrito.filter(item => item.id.toString() !== id.toString());
+            
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+            mostrarCarrito();
+            actualizarContadorCarrito();
+        }
+
+        // Vaciar todo el carrito
+        function vaciarCarrito() {
+            if (confirm('¿Estás seguro de que quieres vaciar tu carrito?')) {
+                localStorage.setItem('carrito', JSON.stringify([]));
+                mostrarCarrito();
+                actualizarContadorCarrito();
+            }
+        }
+
+        // Finalizar compra
+        function finalizarCompra() {
+            const usuarioLogueado = localStorage.getItem('usuarioLogueado');
+            
+            if (!usuarioLogueado) {
+                if (confirm('Para finalizar la compra necesitas iniciar sesión. ¿Deseas ir a la página de login?')) {
+                    window.location.href = "login.html";
+                }
+                return;
+            }
+            
+            if (confirm('¿Confirmas que deseas finalizar tu compra?')) {
+                alert('¡Compra realizada con éxito! Gracias por tu compra.');
+                vaciarCarrito();
+                window.location.href = "ElHarinero.html";
+            }
+        }
+    </script>
+</body>
+</html>

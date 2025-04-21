@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar Sesión - El Harinero</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://unpkg.com/aos@next/dist/aos.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #402d2d;
+      --secondary-color: #5a3e3e;
+      --accent-color: #fef1cf;
+      --light-color: #f8f9fa;
+      --dark-color: #212529;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: url('fondoproductos.jpg') no-repeat center center/cover;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(64, 45, 45, 0.85);
+      z-index: 0;
+    }
+
+    .auth-container {
+      max-width: 450px;
+      width: 100%;
+      margin: 2rem auto;
+      padding: 2.5rem;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      background: rgba(254, 241, 207, 0.9);
+      animation: fadeInUp 0.6s ease;
+      position: relative;
+      z-index: 1; 
+      border: 2px solid var(--primary-color);
+    }
+
+    .auth-toggle {
+      display: flex;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid var(--primary-color);
+    }
+
+    .auth-toggle button {
+      flex: 1;
+      padding: 0.8rem;
+      border: none;
+      background: none;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #777;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .auth-toggle button.active {
+      color: var(--primary-color);
+    }
+
+    .auth-toggle button.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--primary-color);
+      border-radius: 3px 3px 0 0;
+    }
+
+    .auth-form {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .auth-form.active {
+      display: block;
+    }
+
+    .auth-form h2 {
+      margin-bottom: 1.5rem;
+      color: var(--primary-color);
+      font-size: 1.8rem;
+      text-align: center;
+      font-family: 'Georgia', serif;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .input-group i:not(.toggle-password) {
+      position: absolute;
+      top: 50%;
+      left: 15px;
+      transform: translateY(-50%);
+      color: var(--primary-color);
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 15px 45px 15px 45px;
+      border: 2px solid var(--primary-color);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s;
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .input-group input:focus {
+      border-color: var(--secondary-color);
+      box-shadow: 0 0 0 3px rgba(64, 45, 45, 0.2);
+      outline: none;
+    }
+
+    .toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 50px;
+      transform: translateY(-50%);
+      color: var(--primary-color);
+      cursor: pointer;
+      transition: all 0.3s;
+      background: none;
+      border: none;
+      padding: 0;
+      font-size: 1rem;
+    }
+
+    .toggle-password:hover {
+      color: var(--secondary-color);
+    }
+
+    .auth-btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: var(--accent-color);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 1rem;
+    }
+
+    .auth-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(64, 45, 45, 0.4);
+    }
+
+    .forgot-password {
+      display: block;
+      text-align: right;
+      color: var(--primary-color);
+      font-size: 0.9rem;
+      margin-top: -0.5rem;
+      margin-bottom: 1.5rem;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .forgot-password:hover {
+      color: var(--secondary-color);
+    }
+
+    .social-auth {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .social-auth p {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .social-auth p::before,
+    .social-auth p::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 30%;
+      height: 1px;
+      background: var(--primary-color);
+    }
+
+    .social-auth p::before {
+      left: 0;
+    }
+
+    .social-auth p::after {
+      right: 0;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .social-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: var(--primary-color);
+      color: var(--accent-color);
+      font-size: 1.2rem;
+      transition: all 0.3s;
+    }
+
+    .social-icons a:hover {
+      transform: translateY(-3px);
+      background: var(--secondary-color);
+      box-shadow: 0 5px 15px rgba(64, 45, 45, 0.3);
+    }
+
+    .terms {
+      text-align: center;
+      color: var(--primary-color);
+      font-size: 0.85rem;
+      margin-top: 1.5rem;
+    }
+
+    .terms a {
+      color: var(--secondary-color);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 576px) {
+      .auth-container {
+        padding: 1.5rem;
+        margin: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container" data-aos="fade-up">
+    <div class="auth-toggle">
+      <button class="active" id="login-toggle">Iniciar Sesión</button>
+      <button id="register-toggle">Registrarse</button>
+    </div>
+    
+    <form id="login-form" class="auth-form active">
+      <h2>Bienvenido a El Harinero</h2>
+      <div class="input-group">
+        <input type="email" id="login-email" placeholder="Correo electrónico" required>
+        <i class="fas fa-envelope"></i>
+      </div>
+      <div class="input-group">
+        <input type="password" id="login-password" placeholder="Contraseña" required>
+        <i class="fas fa-lock"></i>
+        <button type="button" class="toggle-password" data-target="login-password">
+          <i class="fas fa-eye"></i>
+        </button>
+      </div>
+      <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+      <button type="submit" class="auth-btn">Acceder</button>
+      <div class="social-auth">
+        <p>O continúa con</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-google"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+        </div>
+      </div>
+    </form>
+
+    <form id="register-form" class="auth-form">
+      <h2>Únete a nuestra comunidad</h2>
+      <div class="input-group">
+        <input type="text" id="register-name" placeholder="Nombre completo" required>
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="input-group">
+        <input type="email" id="register-email" placeholder="Correo electrónico" required>
+        <i class="fas fa-envelope"></i>
+      </div>
+      <div class="input-group">
+        <input type="email" id="register-email-confirm" placeholder="Confirmar correo electrónico" required>
+        <i class="fas fa-envelope"></i>
+      </div>
+      <div class="input-group">
+        <input type="password" id="register-password" placeholder="Contraseña" required>
+        <i class="fas fa-lock"></i>
+        <button type="button" class="toggle-password" data-target="register-password">
+          <i class="fas fa-eye"></i>
+        </button>
+      </div>
+      <div class="input-group">
+        <input type="password" id="register-password-confirm" placeholder="Confirmar contraseña" required>
+        <i class="fas fa-lock"></i>
+        <button type="button" class="toggle-password" data-target="register-password-confirm">
+          <i class="fas fa-eye"></i>
+        </button>
+      </div>
+      <button type="submit" class="auth-btn">Registrarse</button>
+      <p class="terms">Al registrarte, aceptas nuestros <a href="#">Términos</a> y <a href="#">Política de Privacidad</a></p>
+    </form>
+  </div>
+
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 1000,
+      once: true
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const loginToggle = document.getElementById('login-toggle');
+      const registerToggle = document.getElementById('register-toggle');
+      const loginForm = document.getElementById('login-form');
+      const registerForm = document.getElementById('register-form');
+
+      // Cambiar entre formularios
+      loginToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (!this.classList.contains('active')) {
+          this.classList.add('active');
+          registerToggle.classList.remove('active');
+          loginForm.classList.add('active');
+          registerForm.classList.remove('active');
+        }
+      });
+
+      registerToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (!this.classList.contains('active')) {
+          this.classList.add('active');
+          loginToggle.classList.remove('active');
+          registerForm.classList.add('active');
+          loginForm.classList.remove('active');
+        }
+      });
+
+      // Función para mostrar/ocultar contraseña
+      function setupPasswordToggle() {
+        document.querySelectorAll('.toggle-password').forEach(button => {
+          button.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const input = document.getElementById(targetId);
+            const icon = this.querySelector('i');
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
+          });
+        });
+      }
+
+      // Inicializar toggles de contraseña
+      setupPasswordToggle();
+
+      // Validación de formularios
+      const forms = document.querySelectorAll('.auth-form');
+      forms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          // Validación básica
+          const inputs = this.querySelectorAll('input[required]');
+          let isValid = true;
+          
+          inputs.forEach(input => {
+            if (!input.value.trim()) {
+              input.style.borderColor = '#c0392b';
+              isValid = false;
+            } else {
+              input.style.borderColor = '#402d2d';
+            }
+          });
+
+          // Validaciones específicas para registro
+          if (this.id === 'register-form') {
+            // Validar que los correos coincidan
+            const email = document.getElementById('register-email');
+            const confirmEmail = document.getElementById('register-email-confirm');
+            
+            if (email.value !== confirmEmail.value) {
+              confirmEmail.style.borderColor = '#c0392b';
+              isValid = false;
+              alert('Los correos electrónicos no coinciden');
+            }
+
+            // Validar que las contraseñas coincidan
+            const password = document.getElementById('register-password');
+            const confirmPassword = document.getElementById('register-password-confirm');
+            
+            if (password.value !== confirmPassword.value) {
+              confirmPassword.style.borderColor = '#c0392b';
+              isValid = false;
+              alert('Las contraseñas no coinciden');
+            }
+
+            // Validar fortaleza de contraseña (opcional)
+            if (password.value.length < 8) {
+              password.style.borderColor = '#c0392b';
+              isValid = false;
+              alert('La contraseña debe tener al menos 8 caracteres');
+            }
+          }
+
+          if (isValid) {
+            // Simular envío exitoso
+            const btn = this.querySelector('button');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+              if (this.id === 'login-form') {
+                // Guardar sesión
+                localStorage.setItem('usuarioLogueado', 'true');
+                alert('Inicio de sesión exitoso! Redirigiendo...');
+                window.location.href = "ElHarinero.html";
+              } else {
+                // Guardar datos del usuario (simulado)
+                const userData = {
+                  name: document.getElementById('register-name').value,
+                  email: document.getElementById('register-email').value,
+                  password: document.getElementById('register-password').value
+                };
+                localStorage.setItem('userData', JSON.stringify(userData));
+                alert('Registro completado! Bienvenido a El Harinero');
+                
+                // Cambiar al formulario de login
+                loginToggle.click();
+              }
+              
+              btn.innerHTML = this.id === 'login-form' ? 'Acceder' : 'Registrarse';
+              btn.disabled = false;
+            }, 1500);
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

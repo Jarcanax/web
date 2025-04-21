@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Harinero - Inés O'Hara</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://unpkg.com/aos@next/dist/aos.css" rel="stylesheet">
+  <style>
+    /* Estilos globales consistentes con productos.html */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-image: url(fondoproductos.jpg);
+      color: #333;
+      padding: 40px;
+    }
+
+    /* Header y Navegación - estilo de productos.html */
+    .header-top {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-title img {
+      height: 120px;
+    }
+
+    .nav-background {
+      background-color: #402d2d;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 40px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      padding: 0;
+      margin: 0;
+      padding-left: 500px;
+    }
+
+    .nav-links li a {
+      text-decoration: none;
+      color: #fef1cf;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    /* Iconos de usuario y carrito - manteniendo funcionalidad */
+    .extra-icons {
+      display: flex;
+      gap: 15px;
+    }
+
+    .extra-icons a {
+      color: #fef1cf;
+      font-size: 1.2rem;
+    }
+
+    .cart-icon {
+      position: relative;
+    }
+
+    .contador-carrito {
+      display: none;
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: #c0392b;
+      color: white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logout-container {
+      display: none;
+    }
+
+    .logout-container a {
+      color: #fef1cf;
+      font-size: 0.9rem;
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      background-color: #5a3e3e;
+      transition: all 0.3s;
+    }
+
+    .logout-container a:hover {
+      background-color: #c0392b;
+    }
+
+    .fa-user-check {
+      color: #4cc9f0 !important;
+    }
+
+    /* Slider de galería - manteniendo el original */
+    .gallery-slider {
+      width: 100%;
+      height: 500px;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 40px;
+    }
+
+    .slides {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .slide.active {
+      opacity: 1;
+    }
+
+    /* Eventos destacados - estilo similar a productos */
+    .eventos-destacados {
+      max-width: 1200px;
+      margin: 0 auto 40px;
+    }
+
+    .eventos-destacados h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2rem;
+      color: #402d2d;
+    }
+
+    .evento {
+      background: #fef1cf;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin-bottom: 25px;
+      display: flex;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .evento:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+
+    .evento img {
+      width: 300px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-right: 20px;
+    }
+
+    .evento-info {
+      flex: 1;
+    }
+
+    .evento-info h1 {
+      color: #402d2d;
+      margin-bottom: 10px;
+      font-size: 1.5rem;
+    }
+
+    .evento-info p {
+      color: #402d2d;
+      font-size: 1rem;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #402d2d;
+      color: #fef1cf;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .nav-links {
+        padding-left: 300px;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .nav-links {
+        padding-left: 200px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 20px;
+      }
+
+      .navbar {
+        flex-direction: column;
+        padding: 10px;
+      }
+
+      .nav-links {
+        padding-left: 0;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .extra-icons {
+        margin-top: 15px;
+      }
+
+      .gallery-slider {
+        height: 300px;
+      }
+
+      .evento {
+        flex-direction: column;
+      }
+
+      .evento img {
+        width: 100%;
+        height: auto;
+        margin-right: 0;
+        margin-bottom: 15px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .nav-links {
+        gap: 10px;
+      }
+
+      .logo-title img {
+        height: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header con el nuevo estilo -->
+  <header>
+    <div class="header-top">
+      <div class="logo-title">
+        <img src="Logo.png" alt="Logo El Harinero">
+      </div>
+    </div>
+    <div class="nav-background">
+      <nav class="navbar">
+        <ul class="nav-links">
+          <li><a href="ElHarinero.html">Inicio</a></li>
+          <li><a href="nosotros.html">Nosotros</a></li>
+          <li><a href="productos.html">Productos</a></li>
+          <li><a href="novedades.html">Novedades</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+        <div class="extra-icons">
+          <a href="login.html" class="user-icon">
+            <i class="fas fa-user"></i>
+          </a>
+          <div class="logout-container">
+            <a href="#" id="logout-btn">Cerrar sesión</a>
+          </div>
+          <a href="carrito.html" class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="contador-carrito"></span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- Slider de imágenes (sin cambios) -->
+  <div class="gallery-slider">
+    <div class="slides">
+        <div class="slide active"><img src="fondo1.jpg" alt="Imagen 1"></div>
+        <div class="slide"><img src="fondo2.jpg" alt="Imagen 2"></div>
+        <div class="slide"><img src="fondo3.jpg" alt="Imagen 3"></div>
+    </div>
+  </div>
+
+  <!-- Eventos destacados con nuevo estilo -->
+  <section class="eventos-destacados">
+    <h2>Eventos Destacados</h2>
+    <div class="evento">
+      <img src="babyshower.jpg" alt="Baby Shower">
+      <div class="evento-info">
+        <h1>Baby Shower</h1>
+        <p>No te pierdas la oportunidad de disfrutar junto con tu familia y amigos de la llegada de tu bendición. Agendá ya y no te quedes sin lugar</p>
+      </div>
+    </div>
+    <div class="evento">
+      <img src="brunch.jpg" alt="Sábados y Domingos de Brunch">
+      <div class="evento-info">
+        <h1>Brunch</h1>
+        <p>Empieza tu fin de semana con nuestro increíble brunch. Una experiencia única.</p>
+      </div>
+    </div>
+    <div class="evento">
+      <img src="pizzacorrida.jpg" alt="Jueves de Pizza Corrida">
+      <div class="evento-info">
+        <h1>Pizza Corrida</h1>
+        <p>Disfruta de nuestra deliciosa pizza ilimitada todos los jueves. ¡No te lo pierdas!</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; El Harinero - Inés O'Hara 2023</p>
+  </footer>
+
+  <!-- Scripts (sin cambios) -->
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    // Slider de imágenes
+    let currentIndex = 0;
+    const slides = document.querySelectorAll(".slide");
+    
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle("active", i === index);
+        });
+    }
+    
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % slides.length;
+        showSlide(currentIndex);
+    }
+    
+    setInterval(nextSlide, 10000); // Cambia cada 10 segundos
+
+    // Inicialización de AOS
+    AOS.init({
+      duration: 1000,
+    });
+
+    // Carrito y manejo de sesión
+    document.addEventListener('DOMContentLoaded', function() {
+      // Inicializar carrito si no existe
+      if (!localStorage.getItem('carrito')) {
+          localStorage.setItem('carrito', JSON.stringify([]));
+      }
+      
+      // Actualizar ícono del carrito
+      actualizarContadorCarrito();
+      
+      // Manejar cierre de sesión
+      const logoutBtn = document.getElementById('logout-btn');
+      if (logoutBtn) {
+          logoutBtn.addEventListener('click', function(e) {
+              e.preventDefault();
+              localStorage.removeItem('usuarioLogueado');
+              window.location.href = "ElHarinero.html";
+          });
+      }
+
+      // Verificar sesión
+      verificarSesion();
+    });
+
+    function actualizarContadorCarrito() {
+      const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+      const contadores = document.querySelectorAll('.contador-carrito');
+      
+      contadores.forEach(contador => {
+        contador.textContent = carrito.length;
+        contador.style.display = carrito.length > 0 ? 'block' : 'none';
+      });
+    }
+
+    function verificarSesion() {
+      const usuarioLogueado = localStorage.getItem('usuarioLogueado');
+      const userIcons = document.querySelectorAll('.fa-user');
+      const logoutButtons = document.querySelectorAll('.logout-container');
+      
+      if (usuarioLogueado) {
+        userIcons.forEach(icon => {
+          icon.classList.remove('fa-user');
+          icon.classList.add('fa-user-check');
+        });
+        logoutButtons.forEach(container => {
+          container.style.display = 'block';
+        });
+      } else {
+        userIcons.forEach(icon => {
+          icon.classList.remove('fa-user-check');
+          icon.classList.add('fa-user');
+        });
+        logoutButtons.forEach(container => {
+          container.style.display = 'none';
+        });
+      }
+    }
+  </script>
+</body>
+</html>

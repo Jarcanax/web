@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contacto - El Harinero</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@next/dist/aos.css" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-image: url(fondoproductos.jpg);
+      color: #402d2d;
+    }
+
+    header {
+      background-image: url(fondoproductos.jpg);
+    }
+
+    .header-top {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-title img {
+      height: 80px;
+    }
+
+    .nav-background {
+      background-color: #402d2d;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 40px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav-links li a {
+      text-decoration: none;
+      color: #fef1cf;
+      font-weight: bold;
+    }
+
+    .extra-icons a {
+      margin-left: 30px;
+      color:#fef1cf;
+    }
+
+    .contacto-section {
+      background: url('fondoproductos.jpg') no-repeat center center/cover;
+      padding: 80px 40px;
+      text-align: center;
+    }
+
+    .contacto-section h2 {
+      font-size: 2.2rem;
+      margin-bottom: 40px;
+      color: #fef1cf;
+      font-family: 'Georgia', serif;
+    }
+
+    .contacto-info {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      font-size: 2.5rem;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .contacto-info a {
+      color: #fef1cf;
+      transition: color 0.3s;
+    }
+
+    .contacto-info a:hover {
+      color: #fef1cf;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-top">
+      <div class="logo-title">
+        <img src="Logo.png" alt="Logo El Harinero" />
+      </div>
+    </div>
+    <div class="nav-background">
+      <nav class="navbar">
+        <ul class="nav-links">
+          <li><a href="ElHarinero.html">Inicio</a></li>
+          <li><a href="nosotros.html">Nosotros</a></li>
+          <li><a href="productos.html">Productos</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="novedades.html">Novedades</a></li>
+        </ul>
+        <div class="extra-icons">
+          <a href="#"><i class="fas fa-user"></i></a>
+          <a href="#"><i class="fas fa-shopping-cart"></i></a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Sección de contacto -->
+  <section class="contacto-section">
+    <h2 data-aos="fade-up">Contacto</h2>
+    <div class="contacto-info" data-aos="fade-up" data-aos-delay="100">
+      <!-- Llamada telefónica -->
+      <a href="tel:+595983590944" title="Llamar">
+        <i class="fas fa-phone-alt"></i>
+      </a>
+
+      <!-- WhatsApp -->
+      <a href="https://wa.me/595983590944?text=Hola%20quiero%20más%20información%20sobre%20sus%20productos" target="_blank" title="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+      </a>
+
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/elharineroinesohara/" target="_blank" title="Instagram">
+        <i class="fab fa-instagram"></i>
+      </a>
+
+      <!-- Facebook -->
+      <a href="https://web.facebook.com/ElHarineroInesOHara/" target="_blank" title="Facebook">
+        <i class="fab fa-facebook"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1000 });
+  </script>
+
+</body>
+</html>
